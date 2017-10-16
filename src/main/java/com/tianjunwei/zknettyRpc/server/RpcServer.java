@@ -91,11 +91,10 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
 
             ChannelFuture future = bootstrap.bind(host, port).sync();
             LOGGER.debug("Server started on port {}", port);
-
             if (serviceRegistry != null) {
+                //address被当做数据存储在znode中
                 serviceRegistry.register(serverAddress);
             }
-
             future.channel().closeFuture().sync();
         } finally {
             workerGroup.shutdownGracefully();
